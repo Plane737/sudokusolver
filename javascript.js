@@ -1,7 +1,9 @@
 //sudoku solver
 
 //DOM
-const body = document.querySelector("body");
+const div = document.querySelector("div");
+const btn = document.querySelector("button");
+
 
 
 //brett
@@ -27,7 +29,18 @@ let brett = [
   [0,2,7,0,0,8,4,0,6],
   [0,3,0,0,0,0,5,0,0],
   [5,0,0,0,6,2,0,0,8],
-];
+]
+let brett3 = [
+  [0,0,6,3,0,7,0,0,0],
+  [0,0,4,0,0,0,0,0,5],
+  [1,0,0,0,0,6,0,8,2],
+  [2,0,5,0,3,0,1,0,6],
+  [0,0,0,2,0,0,3,0,0],
+  [9,0,0,0,7,0,0,0,4],
+  [0,5,0,0,0,0,0,0,0],
+  [0,1,0,0,0,0,0,0,0],
+  [0,0,8,1,0,9,0,4,0],
+]
 
 //print ut
 
@@ -37,16 +50,20 @@ function printBrett(brett){
     let tr = document.createElement("tr");
     for(let j = 0; j < brett[i].length;j++){
       let td = document.createElement("td");
-      td.innerHTML = brett[i][j];
+      if(brett[i][j] === 0){
+        td.innerHTML = " ";
+      } else {
+        td.innerHTML = brett[i][j];
+      }
       tr.appendChild(td);
     }
     table.appendChild(tr);
   }
-  body.appendChild(table);
+  div.appendChild(table);
 }
 
 
-printBrett(brett);
+printBrett(brett3);
 
 
 
@@ -55,8 +72,7 @@ printBrett(brett);
 function testOmFerdig(brett){
   for(let i = 0; i < brett.length; i++){
     for(let j = 0; j< brett[i].length; j++){
-      if(brett[i][j]===0){
-        console.log(i+ " " +j + " har null")
+      if(brett[i][j]===0){ 
         return false;
       }
     }
@@ -92,7 +108,8 @@ function hentBoks(brett,rad,rekke){
 hentBoks(brett,3,2);
 
 //rad --> rekke ned
-function sjekkMulige(brett,rad,rekke){
+function sjekkMulige(brett,rad,rekke,n){
+
   let muligeVerdier = [1,2,3,4,5,6,7,8,9];
 
   //horisontalt
@@ -127,32 +144,36 @@ function sjekkMulige(brett,rad,rekke){
   
 
 
-  return muligeVerdier;
+  if(muligeVerdier.includes(n)){
+    return true;
+  } else {
+    return false;
+  }
  
 }
 
 
-let b = 0;
 
-while(b < 2000){
-  for(let i = 0; i < brett.length; i++){
-    for(let j = 0; j < brett[i].length; j++){
-      if(brett[i][j]!== 0){
-        continue;
-      }
-      
-      let mulige = sjekkMulige(brett, i, j)
-      if(mulige.length === 1){
-        console.log("Fant en " + i+" "+"  "+j+" "+ mulige[0]);
-        console.log(mulige);
-        brett[i][j]=mulige[0];
-      
+function løs(brett){
+  if(testOmFerdig(brett)){
+    printBrett(brett);
+    return true;
+  }
+  for(let i = 0; i < 9; i++){
+    for (let j = 0; j < 9; j++){
+      if(brett[i][j]=== 0){
+        for(let g = 1; g < 10; g++){
+          if(sjekkMulige(brett,i,j,g)){
+            brett[i][j]=g;
+            løs(brett);
+            brett[i][j]=0;
+          }
+          
+        }
+        return;
       }
     }
   }
-  
-  b++;
 }
 
-printBrett(brett);
 
