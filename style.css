@@ -1,6 +1,46 @@
 table, td {
   border:1px solid black;
   text-align: center;
-  width: 200px;
+  width: 300px;
+  font-size: larger;
+  color: #2f3e65;
+  background-color: #84ff2f;
   height: 20px;
+}
+div , button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.button {
+  margin-top: 20px;
+  width: 100px;
+  height: 20px;
+  background-color: #84ff2f;
+  border: none;
+}
+body {
+  background-color:#2f3e65;
+}
+header {
+  text-align: center;
+  color: #84ff2f;
+  font-size: 500%;
+}
+input {
+  width: 20px;
+  height: 25px;
+  background-color: #84ff2f;
+  font-size: 100%;
+  text-align: center;
+  color: #2f3e65;
+  border: none;
+}
+
+footer {
+  text-align: center;
+  margin-top: 300px;
+  color:#84ff2f;
+  font-size: large
+  
 }

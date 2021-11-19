@@ -2,9 +2,13 @@
 
 //DOM
 const div = document.querySelector("div");
-const btn = document.querySelector("button");
+const btn = document.querySelector(".button");
+btn.addEventListener("click",(e)=>{
+  løs(hentInputBrett());
 
-
+})
+//Globle variabler
+let kompleksitet = 0;
 
 //brett
 let brett2 = [
@@ -42,7 +46,69 @@ let brett3 = [
   [0,0,8,1,0,9,0,4,0],
 ]
 
+//Funksjoner
+
+
 //print ut
+function printInputBrett(){
+  let table = document.createElement("table");
+  for(let i = 0; i < 9;i++){
+    let tr = document.createElement("tr");
+    for(let j = 0; j < 9;j++){
+      let td = document.createElement("td");
+      let input = document.createElement("input");
+      input.type = "text";
+      if(i % 3 === 0){
+        input.style.borderTop = "3px solid blue";
+      }
+      if(j % 3 === 0){
+        input.style.borderLeft = "3px solid blue";
+      }
+      input.id = `cell${i}${j}`
+
+      td.appendChild(input);
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+  div.appendChild(table);
+}
+
+function hentInputBrett(){
+  let brett = new Array;
+  for(let i = 0; i < 9;i++){
+    let indreArray = new Array;
+    for(let j = 0; j < 9; j++){
+      cell = document.getElementById(`cell${i}${j}`);
+      if(cell.value !== ""){
+        if(sjekkOmGyldigTall(cell.value)){
+          indreArray.push(Number(cell.value));
+          console.log(cell.value);
+        } else {
+          throw new Error("Ugyldig bruker input");
+        }
+
+      }else {
+        indreArray.push(0);
+      }
+
+    }
+    brett.push(indreArray);
+  }
+  return brett
+}
+function fjernInput(){
+  div.innerHTML = "";
+}
+function sjekkOmGyldigTall(str){
+  if(str.length !== 1){
+    return false;
+  }
+  if(isNaN(str)){
+    return false;
+  }
+  return true;
+}
 
 function printBrett(brett){
   let table = document.createElement("table");
@@ -63,7 +129,7 @@ function printBrett(brett){
 }
 
 
-printBrett(brett3);
+//printBrett(brett3);
 
 
 
@@ -109,6 +175,7 @@ hentBoks(brett,3,2);
 
 //rad --> rekke ned
 function sjekkMulige(brett,rad,rekke,n){
+  kompleksitet += 1;
 
   let muligeVerdier = [1,2,3,4,5,6,7,8,9];
 
@@ -154,17 +221,24 @@ function sjekkMulige(brett,rad,rekke,n){
 
 
 
-function løs(brett){
+function løs(brett){ 
+  if(kompleksitet > 100000){
+    console.log("Brettet er for kompleks");
+    return false;  
+  }
+
   if(testOmFerdig(brett)){
+    fjernInput();
     printBrett(brett);
     return true;
   }
+  
   for(let i = 0; i < 9; i++){
     for (let j = 0; j < 9; j++){
       if(brett[i][j]=== 0){
-        for(let g = 1; g < 10; g++){
-          if(sjekkMulige(brett,i,j,g)){
-            brett[i][j]=g;
+        for(let n = 1; n < 10; n++){
+          if(sjekkMulige(brett,i,j,n)){
+            brett[i][j]=n;
             løs(brett);
             brett[i][j]=0;
           }
@@ -176,4 +250,5 @@ function løs(brett){
   }
 }
 
+printInputBrett();
 
