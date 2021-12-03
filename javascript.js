@@ -121,6 +121,12 @@ function printBrett(brett){
       } else {
         td.innerHTML = brett[i][j];
       }
+      if(i % 3 === 0){
+        td.style.borderTop = "3px solid blue";
+      }
+      if(j % 3 === 0){
+        td.style.borderLeft = "3px solid blue";
+      }
       tr.appendChild(td);
     }
     table.appendChild(tr);
@@ -221,10 +227,6 @@ function sjekkMulige(brett,rad,rekke,n){
 
 
 function løs(brett){ 
-  if(kompleksitet > 100000){
-    console.log("Brettet er for kompleks");
-    return false;  
-  }
 
   if(testOmFerdig(brett)){
     fjernInput();

@@ -25,7 +25,8 @@ body {
 header {
   text-align: center;
   color: #84ff2f;
-  font-size: 500%;
+  margin-top: 20px;
+  font-size: 300%;
 }
 input {
   width: 20px;
